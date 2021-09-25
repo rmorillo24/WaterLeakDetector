@@ -40,14 +40,22 @@ The format of the data model allows to configure
 * format of the value (will be decoded accordingly)
 
 
-## Reading and looping
+### Reading and looping
 Each parameter has a polling time, that may depend on the meaning of the parameter. The script will spawn a process for each parameter. This process will loop infinitelly, with a sleeping time bewteen loops equaling the polling time we have defined
 
+## How to try it in your PC
+
+You can try this setup in your PC with some configuration
+
+* Use de `flows.json` file to run the modbus server simulator. It will act as a smart meter, or any other modbus slave.
+* Configure the server with the IP address of your PC
+* Run `randomModbusInjector.py` to populate the slave sim with some random data. Beware that the script has the parameters hardcoded, so if you change the `datamodel.json`file you will have to adapt this script. Also, change the IP address to match with the above
+* Configure `modbusreader.py`with the IP of the sim server and run.
+
+Note: The MQTT broker is not needed for the simulator. You will receive a warning, but the script will run
 
 ## Acknowledgments
 Some inspiration on:
 * [modbus2mqtt](https://github.com/Instathings/modbus2mqtt)
 * [modbus-herdsman-converters](https://github.com/Instathings/modbus-herdsman-converters)
-A smart meter connected to a pi-like device running a balena app, to notify when the main water pipe is broken, and prevent major leaks that can cost money.
-Some info about the project here: https://forums.balena.io/t/build-log-detecting-if-the-main-water-pipe-breaks
-
+* balenaLabs and all [balena](https://www.balena.io) team for the great product and support

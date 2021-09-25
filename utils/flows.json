@@ -1,0 +1,517 @@
+[
+    {
+        "id": "3bb17258a2f476fd",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "474d5a67ab3db888",
+        "type": "modbus-server",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "logEnabled": false,
+        "hostname": "192.168.1.132",
+        "serverPort": 10502,
+        "responseDelay": 100,
+        "delayUnit": "ms",
+        "coilsBufferSize": 10000,
+        "holdingBufferSize": 10000,
+        "inputBufferSize": 10000,
+        "discreteBufferSize": 10000,
+        "showErrors": false,
+        "x": 400,
+        "y": 180,
+        "wires": [
+            [
+                "36b1776b0af9b5f5"
+            ],
+            [
+                "0d3e6184b0135023"
+            ],
+            [
+                "eec7fe79ec40b6bb"
+            ],
+            [
+                "3fc07729462d6413"
+            ],
+            [
+                "5c051d439dbbf1d0"
+            ]
+        ]
+    },
+    {
+        "id": "85f2a63677ccfee3",
+        "type": "inject",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "123",
+        "payloadType": "num",
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "474d5a67ab3db888"
+            ]
+        ]
+    },
+    {
+        "id": "0d3e6184b0135023",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "36b1776b0af9b5f5",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "eec7fe79ec40b6bb",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "3fc07729462d6413",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "5c051d439dbbf1d0",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a20af12911674363",
+        "type": "modbus-flex-write",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "server": "137afddbbea2554b",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 890,
+        "y": 460,
+        "wires": [
+            [
+                "597d2df6ca6261b2"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f9bf33ad840c5a53",
+        "type": "function",
+        "z": "3bb17258a2f476fd",
+        "name": "FC16 1 [2]",
+        "func": "msg.payload = {\n    value: msg.payload,\n    'fc': 16, \n    'unitid': 1, \n    'address': 1 , \n    'quantity': 2\n} \n    \nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 460,
+        "wires": [
+            [
+                "a20af12911674363"
+            ]
+        ]
+    },
+    {
+        "id": "9649d75f28275784",
+        "type": "inject",
+        "z": "3bb17258a2f476fd",
+        "name": "16818",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "16818",
+        "payloadType": "str",
+        "x": 190,
+        "y": 360,
+        "wires": [
+            [
+                "29fafad822d7aa2a"
+            ]
+        ]
+    },
+    {
+        "id": "29fafad822d7aa2a",
+        "type": "join",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 450,
+        "y": 420,
+        "wires": [
+            [
+                "f9bf33ad840c5a53"
+            ]
+        ]
+    },
+    {
+        "id": "597d2df6ca6261b2",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "WRITTEN",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.value",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1120,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9aa3a99c5d10a422",
+        "type": "comment",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "info": "Every time I read manually, I will increase the meter value and write it to the server, so the meter is ready for the next",
+        "x": 360,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "40c496efdee12587",
+        "type": "inject",
+        "z": "3bb17258a2f476fd",
+        "name": "47186",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "47186",
+        "payloadType": "str",
+        "x": 190,
+        "y": 460,
+        "wires": [
+            [
+                "29fafad822d7aa2a"
+            ]
+        ]
+    },
+    {
+        "id": "00eefece88f3ba56",
+        "type": "comment",
+        "z": "3bb17258a2f476fd",
+        "name": "[21176,45633] = 22.34000015258789",
+        "info": "",
+        "x": 170,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "f94c77454fbba134",
+        "type": "mqtt in",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "topic": "sensors",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "941f689f813b8d8e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 250,
+        "y": 860,
+        "wires": [
+            [
+                "01ab0b6e2e52410d"
+            ]
+        ]
+    },
+    {
+        "id": "01ab0b6e2e52410d",
+        "type": "debug",
+        "z": "3bb17258a2f476fd",
+        "name": "MQTT RECEIVED(sensors)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "9db3f67216c355c0",
+        "type": "random",
+        "z": "3bb17258a2f476fd",
+        "name": "random1",
+        "low": 1,
+        "high": "65235",
+        "inte": "true",
+        "property": "payload",
+        "x": 320,
+        "y": 720,
+        "wires": [
+            [
+                "9ff0aba1e70b8169"
+            ]
+        ]
+    },
+    {
+        "id": "a8d7b78803e3354c",
+        "type": "random",
+        "z": "3bb17258a2f476fd",
+        "name": "random2",
+        "low": 1,
+        "high": "65235",
+        "inte": "true",
+        "property": "payload",
+        "x": 320,
+        "y": 760,
+        "wires": [
+            [
+                "9ff0aba1e70b8169"
+            ]
+        ]
+    },
+    {
+        "id": "9ff0aba1e70b8169",
+        "type": "join",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 510,
+        "y": 740,
+        "wires": [
+            [
+                "86cf6d79fc6cff81",
+                "f9bf33ad840c5a53"
+            ]
+        ]
+    },
+    {
+        "id": "86cf6d79fc6cff81",
+        "type": "delay",
+        "z": "3bb17258a2f476fd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "x": 150,
+        "y": 740,
+        "wires": [
+            [
+                "9db3f67216c355c0",
+                "a8d7b78803e3354c"
+            ]
+        ]
+    },
+    {
+        "id": "5922be312a2c5dad",
+        "type": "inject",
+        "z": "3bb17258a2f476fd",
+        "name": "Start random",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 820,
+        "wires": [
+            [
+                "86cf6d79fc6cff81"
+            ]
+        ]
+    },
+    {
+        "id": "137afddbbea2554b",
+        "type": "modbus-client",
+        "name": "192.168.1.132",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "tcpHost": "192.168.1.132",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true
+    },
+    {
+        "id": "941f689f813b8d8e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.1.141",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    }
+]
