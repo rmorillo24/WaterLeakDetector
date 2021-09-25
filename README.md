@@ -47,7 +47,7 @@ Each parameter has a polling time, that may depend on the meaning of the paramet
 
 You can try this setup in your PC with some configuration
 
-* Use de `flows.json` file to run the modbus server simulator. It will act as a smart meter, or any other modbus slave.
+* Load `flows.json` file in node-red to run the modbus server simulator. It will act as a smart meter, or any other modbus slave.
 * Configure the server with the IP address of your PC
 * Run `randomModbusInjector.py` to populate the slave sim with some random data. Beware that the script has the parameters hardcoded, so if you change the `datamodel.json`file you will have to adapt this script. Also, change the IP address to match with the above
 * Configure `modbusreader.py`with the IP of the sim server and run.
