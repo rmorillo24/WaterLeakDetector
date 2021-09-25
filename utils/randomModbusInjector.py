@@ -19,26 +19,55 @@ client.connect()
 print("Starting random positive floats injector")
 
 while(1):
+    print("-" * 40)
+    #IEEE745 for instant flow
     my_random = np.random.uniform(0, 1000)
-
     builder = BinaryPayloadBuilder(byteorder=Endian.Little,
                                     wordorder=Endian.Little)
     builder.add_32bit_float(my_random)
     payload = builder.to_registers()
-    print("Value: %s -> %s" % (my_random,payload))
+    print("Instant float: %s -> %s" % (my_random,payload))
     payload = builder.build()
     address = 1
-
     #Writing into the slave
     client.write_registers(address, payload, skip_encode=True, unit=1)
 
-    #Reading to check if it's stored
-    result = client.read_holding_registers(address, len(payload),  unit=1)
-    print("Read raw: %s" % payload)
+    #float for daily accumulated flow
+    my_random = np.random.uniform(0, 1000)
+    builder = BinaryPayloadBuilder(byteorder=Endian.Little,
+                                    wordorder=Endian.Little)
+    builder.add_32bit_float(my_random)
+    payload = builder.to_registers()
+    print("daily accumulated: %s -> %s" % (my_random,payload))
+    payload = builder.build()
+    address = 137
+    #Writing into the slave
+    client.write_registers(address, payload, skip_encode=True, unit=1)
 
-    #Decoding to check if the value is the same
-    decoder = BinaryPayloadDecoder.fromRegisters(result.registers,Endian.Little, Endian.Little)
-    print("Read decoded: %s" % decoder.decode_32bit_float())
+    #float for monthly accumulated flow
+    my_random = np.random.uniform(0, 1000)
+    builder = BinaryPayloadBuilder(byteorder=Endian.Little,
+                                    wordorder=Endian.Little)
+    builder.add_32bit_float(my_random)
+    payload = builder.to_registers()
+    print("monthly accumulated: %s -> %s" % (my_random,payload))
+    payload = builder.build()
+    address = 141
+    #Writing into the slave
+    client.write_registers(address, payload, skip_encode=True, unit=1)
+    
+    #IEEE745 for test
+    my_random = 361
+    builder = BinaryPayloadBuilder(byteorder=Endian.Little,
+                                    wordorder=Endian.Little)
+    builder.add_32bit_float(my_random)
+    payload = builder.to_registers()
+    print("Test: %s -> %s" % (my_random,payload))
+    payload = builder.build()
+    address = 361
+    #Writing into the slave
+    client.write_registers(address, payload, skip_encode=True, unit=1)
+
 
     time.sleep(25)
 
