@@ -1,0 +1,27 @@
+1. me suscribo a un topic
+    1.1 el topic va a ser el mismo para cualquiera de los valores
+
+2. Dependiendo del valor que he recibido hago una cosa u otra
+
+3. Si el valor el test
+    3.1. si es fallo, emitir mensaje de alerta
+
+4. Si el valor es waterflow
+    3.2. si waterflow != 0
+        3.2.1. Si valor anterior == 0
+            valor anterior = valor recibido
+            tiempo anterior = timestamp #para calcular el tiempo transcurrido con flujo de agua
+            numero de lecturas = 1 #numero de lecturas consecutivas con flujo de agua
+        3.2.2 Si el valor anterior != 0
+            calcular tiempo transcurrido desde la ultima lecturas
+            incrementar numero de lecturas
+            3.2.2.1 Si tiempo transcurrido >= conf_tiempo_transcurrid
+                enviar alerta con numero de lecturas consecutivas y tiempo transcurrido
+            
+    3.3 Si waterflow == 0
+        numero de lecturas = 0
+        tiempo transcurrido = 0
+
+
+
+NOTA necesito un notificador

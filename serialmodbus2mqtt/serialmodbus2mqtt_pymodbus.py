@@ -11,25 +11,22 @@ from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.payload import BinaryPayloadBuilder
 
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client.sync import ModbusSerialClient
 import paho.mqtt.client as mqtt
 
 import logging
 
 
-def init_servers(modbus_host, modbus_port, mqtt_ip, mqtt_port):
+from pymodbus.constants import Defaults
+Defaults.RetryOnEmpty = True
+Defaults.Timeout = 5
+Defaults.Retries = 5
+
+def init_servers(mqtt_ip, mqtt_port):
     """
     init_servers: Reads environment variables for MODBUS server and MQTT broker. Then, connects.
         I'm leaving some hardcoded values for testing
     """
-    #Loading environment variables for configuring the modbus server
-    try:
-        modbus_host = os.environ['MODBUS_HOST_IP']
-        modbus_port = os.environ['MODBUS_HOST_PORT']
-    except:
-        log.log(logging.WARNING, "MODBUS slave address variables harcoded.")
-        #not exiting for testing purposes
-
     #Loading environment variables for configuring the mqtt broker
     try:
         mqtt_ip = os.environ['MQTT_BROKER_IP']
@@ -40,7 +37,7 @@ def init_servers(modbus_host, modbus_port, mqtt_ip, mqtt_port):
 
     #Connecting to MODBUS server
     try:
-        logging.info("Attempting to connect to MODBUS server " + modbus_host + ":" + modbus_port)
+        logging.info("Attempting to connect to MODBUS server ")
         modbusc.connect()
         logging.info("Connected")
     except Exception as e:
@@ -50,7 +47,7 @@ def init_servers(modbus_host, modbus_port, mqtt_ip, mqtt_port):
 
     #Connecting to mqtt broker
     try:
-        logging.info("Attempting to connect to MQTT broker " + mqtt_ip + ":" + modbus_port)
+        logging.info("Attempting to connect to MQTT broker " + mqtt_ip + ":" + mqtt_port)
         mqttc.connect(mqtt_ip, int(mqtt_port))  # Connect to (broker, port, keepalive-time)
         logging.info("Connected")
     except:
@@ -74,8 +71,11 @@ def readInputRegisters(address, size, format):
         rr = modbusc.read_holding_registers(address,
                                             size,
                                             unit=1)
-        assert(not rr.isError())     # test that we are not an error
-        assert(rr.function_code < 0x80) # test that we are not an error
+        print("Read RR")
+        print(rr)
+
+        # assert(not rr.isError())     # test that we are not an error
+        # assert(rr.function_code < 0x80) # test that we are not an error
     except Exception as e:
         log.exception(e)
         raise Exception("Could not read holding_registers")
@@ -133,17 +133,33 @@ log.addHandler(ch)
 # Setting modbus and mqtt servers with hardcoded default values
 global mqttc
 global modbusc
-modbus_host = "192.168.1.132"
-modbus_port = "10502"
-mqtt_ip = "127.0.0.1"
+
+#todo: move the following to config or env vars
+port='/dev/ttySC0'
+baudrate=9600
+stopbits=1
+parity='N'
+bytesize=8
+timeout=1
+mqtt_ip = "localhost"
 mqtt_port = "1883"
-modbusc = ModbusTcpClient(modbus_host, modbus_port)
+
+log.debug("Creating modbus client")
+modbusc = ModbusSerialClient(method='ascii',
+                            port=port,
+                            baudrate=baudrate,
+                            stopbits=stopbits,
+                            parity=parity,
+                            bytesize=bytesize,
+                            timeout=timeout)
+log.debug("Creating mqtt client")
 mqttc = mqtt.Client("mqttbroker")  # Create instance of client with client ID “digitest”
-init_servers(modbus_host, modbus_port, mqtt_ip, mqtt_port)
+init_servers(mqtt_ip, mqtt_port)
 
 #########
 # loading datamodel
 try:
+    log.debug("Opening datamodel")
     with open('datamodel.json', 'r') as myfile:
         data = myfile.read()
     datamodel = json.loads(data)
@@ -155,6 +171,7 @@ except Exception as e:
 
 #########
 # Looping datamodel to spawn a loop for each parameter
+log.debug("Parsing datamodel")
 for key, value in datamodel['fromModbus']['input'].items():
     try:
         log.info("Launching process to read %s from address %s, length %s, polling time:%s, format: %s" %(key, value['address'], value['length'], value['polling_secs'], value['format']))

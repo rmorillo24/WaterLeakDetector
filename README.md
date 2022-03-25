@@ -7,6 +7,8 @@ Instead of hardocding the SmartMeter register addresses, the project implements 
 
 The project is meant to run on [balena](https://www.balena.io), but the main script works in any PC
 
+Using [this](https://www.waveshare.com/wiki/2-CH_RS485_HAT) HAT to add RS485 to the balenaFin. 
+
 ## Selected Protocol registers
 For the initial project I've used [this](https://es.aliexpress.com/item/1005003015658136.html) smart meter that includes a modbus slave with many parameters. As per my interest, I've only included in the datamodel the ones I'm going to process. The following is an extract from the manufacturer's doc:
 
