@@ -4,23 +4,32 @@ volumes:
     sense-data:
     dashboard-data:
 
-  services:
+services:
 
-    serialmodbus2mqtt:
-      build: ./serialmodbus2mqtt
-      privileged: true
-      environment:
-        MODBUS_HOST_IP: '192.168.1.132'
-        MODBUS_HOST_PORT: '10502'
-        MQTT_BROKER_IP: '127.0.0.1'
-        MQTT_BROKER_PORT: '1883'
-        MODBUS_POLLING_SECS: '5'
-        REG_INSTANT_FLOW: 1
-        LENGTH_INSTANT_FLOW: 2
-      network_mode: host
-      devices:
-        - "/dev/ttySC0:/dev/ttySC0"
-      restart: "no"
+  # serialmodbus2mqtt:
+  #   build: ./serialmodbus2mqtt
+  #   privileged: true
+  #   environment:
+  #     MODBUS_HOST_IP: '192.168.1.132'
+  #     MODBUS_HOST_PORT: '10502'
+  #     MQTT_BROKER_IP: '127.0.0.1'
+  #     MQTT_BROKER_PORT: '1883'
+  #     MODBUS_POLLING_SECS: '5'
+  #     REG_INSTANT_FLOW: 1
+  #     LENGTH_INSTANT_FLOW: 2
+  #   network_mode: host
+  #   devices:
+  #     - "/dev/ttySC0:/dev/ttySC0"
+  #   restart: "no"
+
+
+  tcpmodbus2mqtt:
+    image: bh.cr/rmorillo/tcpmodbus2mqtt
+    #build: ./tcpmodbus2mqtt
+    privileged: true
+    network_mode: host
+    restart: "no"
+
 
   influxdb:
     restart: always

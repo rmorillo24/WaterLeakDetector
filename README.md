@@ -21,43 +21,29 @@ For the initial project I've used [this](https://es.aliexpress.com/item/10050030
 
 
 ## How it works
-### Datamodel
-The datamodel.json file defines the parameters I want to read from my modbus slave. The idea is that anyone can use this to add any other parameter with my initial smart meter, or with another one supporting modbus. 
-An example of a parameter that will be automatically be read:
 
-```
-    "instant_flow": {
-                "address": 1,
-                "length": 2,
-                "polling_secs": 25,
-                "format": "ieee754"
-    }
-```
+There are basically different existing services and  balenaBlocks from the meter to the algorithm that detects the Leak:
 
-The format of the data model allows to configure
+- [tcpmodbus2mqtt](https://hub.balena.io/rmorillo/tcpmodbus2mqtt): By defining a parameter's datamodel, it reads the MODBUS slave and publishes value to an MQTT server
+- [mqtt](): A mosquito server
+- [connector](https://hub.balena.io/balenablocks/connector): Intelligently connect data sources with data sinks.
+- [influxdb](): A database to store read data
+- [dashboard](https://hub.balena.io/balenablocks/dashboard): A customizable data visualization tool with automatically generated dashboards.
 
-* Input or output variables
-* Register address
-* Number of registers to read for this parameter
-* format of the value (will be decoded accordingly)
+And finally, the algorith that detects the Leaks, basically detecting when there's water running for too long: the `smartmeterprocessor` service.
 
-
-### Reading and looping
-Each parameter has a polling time, that may depend on the meaning of the parameter. The script will spawn a process for each parameter. This process will loop infinitelly, with a sleeping time bewteen loops equaling the polling time we have defined
 
 ## How to try it in your PC
 
-You can try this setup in your PC with some configuration
+You can try this setup in your PC running a node-red server with the right modules.
 
-* Load `flows.json` file in node-red to run the modbus server simulator. It will act as a smart meter, or any other modbus slave.
+* Load `utils/flows.json` file in node-red to run the modbus server simulator. It will act as a smart meter, or any other modbus slave.
 * Configure the server with the IP address of your PC
-* Run `randomModbusInjector.py` to populate the slave sim with some random data. Beware that the script has the parameters hardcoded, so if you change the `datamodel.json`file you will have to adapt this script. Also, change the IP address to match with the above
-* Configure `modbusreader.py`with the IP of the sim server and run.
+* Run `utils/randomModbusInjector.py` to populate the slave sim with some random data. Beware that the script has the parameters hardcoded, so if you change the `datamodel.json`file you will have to adapt this script. Also, change the IP address to match with the above
 
 Note: The MQTT broker is not needed for the simulator. You will receive a warning, but the script will run
 
 ## Acknowledgments
 Some inspiration on:
-* [modbus2mqtt](https://github.com/Instathings/modbus2mqtt)
-* [modbus-herdsman-converters](https://github.com/Instathings/modbus-herdsman-converters)
+* alanb128 for the algorithm
 * balenaLabs and all [balena](https://www.balena.io) team for the great product and support
